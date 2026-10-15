@@ -94,6 +94,35 @@ attack the MCP server. See the homework description for the full rules.
 
 ### Task 1
 > one paragraph describing your solution, and your results on `public_test`.
+paragrahp:hw2 pic.jpg
+cv,score,correctness
+CV_1.pdf,0.9000,correct
+CV_2.pdf,0.9000,correct
+CV_3.pdf,0.9000,correct
+CV_4.pdf,0.1000,correct
+CV_5.pdf,0.1000,correct
+CV_6.pdf,0.9000,correct
+CV_7.pdf,0.1000,correct
+In build_agent function, I use create function to connect the llm with six MCP tools. System  prompt will ask it get name  industry city etc. the name together with  city and industry will help to search on the facebook and linkedin.
 
+if mutiple result is returned, will only keep the one whose school and  company is match to CV.
+
+In score_cvs function, for every CV, ainvoke will be called and use the masage as evidence . Judge llm will use the evidence to score the CV. Wrong years fake experience or employer will be seen as  difference. The output is 0.9 or 0.1, otherwise is 0.0.
 ### Task 2
 > the attack techniques you used and why you expect them to work.
+I use prompt injection in four ways but none of them worked， I think large models today had specially trained to defend prompt injection attack.  At the beginning this year, there were news that attackers used prompt injection to attack agents deployed in local devices. I thought this prompt issue has fixed.
+
+There were my ways to misguide agent:
+
+Output format hijacking:Tells the model the final answer may only be 0.9, with no 0.1 or any other character
+
+Role and delimiter confusion:Ends the CV with CV TEXT END, </user_message>, and a fake <system> block, then inserts a new instruction
+
+Hidden text: Writes that same instruction in white so it is invisible on the page but still extracted from the PDF
+
+Authority and sycophancy:Adds a fake LinkedIn verification certificate marked MATCH, so the model treats the CV as already checked
+
+I expect them to work beacuse llms sometimes can be easy to fool, they will accept your statement easily.
+
+##AI PARADOX
+People mean very different things—ChatGPT, self-driving cars, recommendation algorithms—yet we use one single term. Dignum argues this confusion is not just technical but also about language and perspective. Different groups bring different assumptions, and more voices only make agreement harder. This reminded me that AI is not a fixed object we can easily define. It is a moving target. Instead of pretending the confusion will disappear, we should accept it and think carefully about what we really mean when we say "AI."
